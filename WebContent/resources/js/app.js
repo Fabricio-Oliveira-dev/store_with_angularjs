@@ -78,17 +78,36 @@ app.controller("clienteController", function($scope, $http, $location, $routePar
 		});
 	};
 	
-	$scope.listarClientes = function () {
-		$http.get("cliente/listar").success(function(response) {
+	$scope.listarClientes = function (numeroPagina) {
+		$scope.numeroPagina = numeroPagina;
+		$http.get("cliente/listar/" + numeroPagina).success(function(response) {
 			$scope.data = response;
+			
+			///----Inicio total página
+				$http.get("cliente/totalPagina/").success(function(response) {
+				$scope.totalPagina = response;
+			}).error(function(response) {
+				erro("Error" + response);
+			});
+			///----Fim total página
+			
+			
 		}).error(function(response) {
 			erro("Error" + response);
 		});
 	};
 	
+	$scope.proximo = function() {
+		$scope.listarClientes(new Number($scope.numeroPagina + 1));
+	}
+	
+	$scope.anterior = function() {
+		$scope.listarClientes(new Number($scope.numeroPagina - 1));
+	}
+	
 	$scope.removerCliente = function(codCliente) {
 		$http.delete("cliente/deletar/" + codCliente).success(function(response) {
-			$scope.listarClientes();
+			$scope.listarClientes($scope.numeroPagina);
 			sucesso("Removido com sucesso!");
 		}).error(function(status) {
 			erro("Error" + status);

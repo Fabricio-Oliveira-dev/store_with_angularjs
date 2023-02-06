@@ -37,10 +37,16 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 		
 	}
 	
-	@RequestMapping(value="listar", method=RequestMethod.GET, headers = "Accept=application/json")
+	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
-	public String listar() throws Exception {
+	public String listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
 		return new Gson().toJson(super.lista());
+	}
+	
+	@RequestMapping(value="totalPagina", method=RequestMethod.GET, headers = "Accept=application/json")
+	@ResponseBody
+	public String totalPagina() throws Exception {
+		return ""+super.quantidadePagina();
 	}
 	
 	@RequestMapping(value="deletar/{codCliente}", method=RequestMethod.DELETE)
@@ -62,5 +68,5 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 		}
 		return new Gson().toJson(objeto);
 	}
-
+	
 }

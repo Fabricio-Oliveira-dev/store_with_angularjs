@@ -10,7 +10,7 @@
 <label>Filtro <input class="form-control" type="text" ng-model="filtro"></label><br>
 <br/>
 
-<div ng-controller="clienteController" ng-init="listarClientes();" >
+<div ng-controller="clienteController" ng-init="listarClientes(1);" >
 	<div class="content table-responsive table-full-width">
 		<table class="table table-hover">
 			<thead>
@@ -37,6 +37,11 @@
 				</tr>
 			</tbody>
 		</table>
+		
+		<div class="text-center">
+			<button type="button" class="btn btn-info btn-fill btn-wd" ng-click="anterior();">Anterior</button>
+			<button type="button" class="btn btn-info btn-fill btn-wd" ng-click="proximo();">Próximo</button>
+		</div>
 	</div>
 </div>
 

@@ -3,6 +3,7 @@ package curso.angular.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
@@ -80,6 +81,58 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 	
 	public Class<T> getPersistenceClass() {
 		return persistenceClass;
+	}
+	
+	@Override
+	public List<T> consultaPaginada(String numeroPagina) throws Exception {
+		
+		int total_por_pagina = 6;
+		
+		if (numeroPagina == null || (numeroPagina != null && numeroPagina.trim().isEmpty()))
+		{
+			numeroPagina = "0";
+		}
+		int offSet = (Integer.parseInt(numeroPagina) * total_por_pagina) - total_por_pagina;
+		
+		if (offSet < 0)
+		{
+			offSet = 0;
+		}
+		
+		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistenceClass());
+		criteria.setFirstResult(offSet);
+		criteria.setMaxResults(total_por_pagina);
+		criteria.addOrder(Order.asc("id"));
+		
+		return criteria.list();
+	}
+	
+	public int quantidadePagina() throws Exception {
+		String sql = "select count(1) as totalRegistros FROM " + getPersistenceClass().getSimpleName();
+		
+		int quantidadePagina = 1;
+		double total_por_pagina = 6.0;
+			
+		SQLQuery find = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+		Object resultSet = find.uniqueResult();
+			
+			if (resultSet != null) {
+				double totalRegistros = Double.parseDouble(resultSet.toString());
+				
+				if (totalRegistros > total_por_pagina){
+					double quantidadePaginaTemp = Float.parseFloat(""+(totalRegistros / total_por_pagina));
+
+					if (!(quantidadePaginaTemp % 2 == 0)){
+						quantidadePagina =   new Double(quantidadePaginaTemp).intValue() + 1;
+					}
+					else {
+						quantidadePagina = new Double(quantidadePaginaTemp).intValue();
+					}
+				}else {
+					quantidadePagina = 1;
+				}
+			}
+		return quantidadePagina;
 	}
 	
 }
