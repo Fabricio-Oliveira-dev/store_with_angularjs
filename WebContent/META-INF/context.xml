@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context reloadable="true">
+	<Resource	
+				name="jdbc/datasouce" 
+				auth="Container" 
+				type="javax.sql.DataSource"
+				defaultAutoCommit='false'
+				maxActive="50"
+				maxIdle="10" 
+				maxWait="10"
+				initialSize="10"
+				driverClassName="org.postgresql.Driver"
+				validationQuery="SELECT 'OK'"
+				testWhileIdle="true"
+           		testOnBorrow="true"
+           		numTestsPerEvictionRun="5"
+                timeBetweenEvictionRunsMillis="5000"
+                minEvictableIdleTimeMillis="60000"
+				antiJARLocking="false"
+                antiResourceLocking="false"
+				username="postgres" 
+				password="admin" 
+				url="jdbc:postgresql://localhost:5432/angularjs_spring_restful_pessoal?autoReconnect=true"/>
+				
+	<!-- http://tomee.apache.org/datasource-config.html -->	
+	<!-- maxActive máximo transações ativas -->
+	<!-- maxIdle máximo transações intativas no pool -->
+	<!-- maxWait tempo máximo sem conexão no pool -->
+	<!-- initialSize conexões iniciais no pool -->
+	<!-- validationQuery valida a conexão fazendo select -->
+	<!-- testWhileIdle testa conexões validas -->
+	<!-- testOnBorrow validar conexões antes de remover -->
+	<!-- numTestsPerEvictionRun número de conexões a validar -->
+	<!-- timeBetweenEvictionRunsMillis tempo entre as validações de conexão -->
+	<!-- minEvictableIdleTimeMillis quantidade de tempo que a conexão pode ficar ocisosa -->
+	<!-- antiJARLocking evita o bloqueio de arquivos JAR em processos do servidor -->
+	<!-- antiResourceLocking não permite bloqueio de arquivos em processos  e JARs -->
+</context>

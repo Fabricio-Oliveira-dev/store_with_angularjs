@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+ http://www.springframework.org/schema/security 
+ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<global-method-security secured-annotations="enabled" />
+
+	<http auto-config="true" 
+		access-denied-page="/negado/acesso-negado.html"
+		use-expressions="true">
+
+		<intercept-url pattern="/publico/**" access="permitAll" /> 
+
+		<intercept-url pattern="/cliente/**" access="isAuthenticated() and hasAnyRole('ADMIN')"/>
+		<intercept-url pattern="/fornecedor/**" access="isAuthenticated() and hasAnyRole('ADMIN')"/>
+		<intercept-url pattern="/grafico/**" access="isAuthenticated() and hasAnyRole('ADMIN')"/>
+		<intercept-url pattern="/livro/**" access="isAuthenticated() and hasAnyRole('ADMIN')"/>
+		<intercept-url pattern="/loja/**" access="isAuthenticated() and hasAnyRole('ADMIN')"/>
+		<intercept-url pattern="/inicial.html" access="isAuthenticated() and hasAnyRole('ADMIN')"/> 
+		
+		<form-login login-page="/publico/login.html"
+			always-use-default-target="true" default-target-url="/inicial.html"
+			authentication-failure-url="/publico/login.html?login_error=1" />
+
+		<logout invalidate-session="true" logout-success-url="/publico/login.html"
+			logout-url="/j_spring_security_logout" delete-cookies="JSESSIONID"/>
+		
+		<remember-me token-validity-seconds="1209600" />
+		
+		<session-management invalid-session-url="/publico/login.html"
+		    session-fixation-protection="migrateSession"> 
+        	<concurrency-control 
+        	max-sessions="100"
+        	expired-url="/publico/login.html"
+        	error-if-maximum-exceeded="true" /> 
+    	</session-management>
+		
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder hash="plaintext" />
+			<jdbc-user-service data-source-ref="springDataSource"
+
+				users-by-username-query="SELECT login as username
+												,senha as password
+												,'true' as enable
+									   		FROM usuario 
+									   	   WHERE ativo = true 
+									         and upper(login) = upper(?)"
+
+				authorities-by-username-query="SELECT u.login as username
+													 ,p.acesso as authority 
+											 	FROM usuario u 
+											  	join usuarioacesso p on u.id = p.usuario 
+											   WHERE u.ativo = true
+											     AND upper(login) = upper(?)" />
+		</authentication-provider>
+	</authentication-manager>
+
+</b:beans>
