@@ -36,6 +36,7 @@ app.controller("clienteController", function($scope, $http, $location, $routePar
 		$http.get("cliente/buscarcliente/" + $routeParams.id).success(function(response) {
 			$scope.cliente = response;
 			
+			document.getElementById("imagemCliente").src = $scope.cliente.foto;
 			//------------------ carrega estados e cidades do cliente em edição
 			setTimeout(function () {
 				$("#selectEstados").prop('selectedIndex', (new Number($scope.cliente.estados.id) + 1));
@@ -66,8 +67,11 @@ app.controller("clienteController", function($scope, $http, $location, $routePar
 	};
 	
 	$scope.salvarCliente = function() {
+		$scope.cliente.foto = document.getElementById("imagemCliente").getAttribute("src");
+		
 		$http.post("cliente/salvar", $scope.cliente).success(function(response) {
 			$scope.cliente = {};
+			document.getElementById("imagemCliente").src = '';
 			sucesso("Gravado com sucesso!");
 		}).error(function(response) {
 			erro("Error" + response);
@@ -172,4 +176,21 @@ function carregarCidadesChrome(estado) {
 			 $('#selectCidades').html(html);
 		});
   }
+}
+
+function visualizarImg() {
+	 var preview = document.querySelectorAll('img').item(1);
+	  var file    = document.querySelector('input[type=file]').files[0];
+	  var reader  = new FileReader();
+
+	  reader.onloadend = function () {
+	    preview.src = reader.result;// carrega em base64 a img
+	  };
+
+	  if (file) {
+	    reader.readAsDataURL(file);		    
+	  } else {
+	    preview.src = "";
+	  }
+	  
 }
