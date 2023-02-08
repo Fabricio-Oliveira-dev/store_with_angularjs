@@ -26,6 +26,8 @@
 	    <mapping class="curso.angular.model.Estados" />
 	    <mapping class="curso.angular.model.Cidades" />
 		<mapping class="curso.angular.model.Cliente" />
+		<mapping class="curso.angular.model.Fornecedor" />
+		<mapping class="curso.angular.model.Livro" />
 		
 		
 	</session-factory>

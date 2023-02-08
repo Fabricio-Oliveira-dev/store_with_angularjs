@@ -33,14 +33,14 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 		}
 		
 		super.salvarOuAtualizar(cliente);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity(HttpStatus.CREATED);
 		
 	}
 	
-	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json")
+	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json") 
 	@ResponseBody
 	public String listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
-		return new Gson().toJson(super.lista());
+		return new Gson().toJson(super.consultaPaginada(numeroPagina)); 
 	}
 	
 	@RequestMapping(value="totalPagina", method=RequestMethod.GET, headers = "Accept=application/json")
@@ -50,12 +50,8 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 	}
 	
 	@RequestMapping(value="deletar/{codCliente}", method=RequestMethod.DELETE)
-	public @ResponseBody String deletar(@PathVariable("codCliente") String codCliente) throws Exception {
-		
-		Cliente objeto = new Cliente();
-		objeto.setId(Long.parseLong(codCliente));
-		super.deletar(objeto);
-		
+	public  @ResponseBody String deletar (@PathVariable("codCliente") String codCliente) throws Exception {
+		super.deletar(loadObjeto(Long.parseLong(codCliente)));
 		return "";
 	}
 	
