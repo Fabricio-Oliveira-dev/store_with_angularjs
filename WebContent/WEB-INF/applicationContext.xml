@@ -72,5 +72,15 @@
 		class="curso.angular.controller.LivroController">
 		<constructor-arg value="curso.angular.model.Livro" />
 	</bean>
+	
+	<bean id="itemPedidoController" name="itemPedidoController"
+		class="curso.angular.controller.ItemPedidoController">
+		<constructor-arg value="curso.angular.model.ItemPedido" />
+	</bean>
+	
+	<bean id="pedidoController" name="pedidoController"
+		class="curso.angular.controller.PedidoController">
+		<constructor-arg value="curso.angular.model.Pedido" />
+	</bean>
 </beans>
 

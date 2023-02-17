@@ -24,38 +24,55 @@ public class LivroController extends DaoImplementacao<Livro> implements
 		super(persistenceClass);
 	}
 
-	@RequestMapping(value="salvar", method=RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity salvar(@RequestBody String jsonLivro) throws Exception {
-		Livro livro = new Gson().fromJson(jsonLivro, Livro.class);
-		
-		super.salvarOuAtualizar(livro);
-		return new ResponseEntity<>(HttpStatus.CREATED);
-		
-	}
+	 @RequestMapping(value="salvar", method= RequestMethod.POST)
+	 @ResponseBody
+	 public ResponseEntity salvar(@RequestBody String jsonLivro) throws Exception {
+		 Livro livro = new Gson().fromJson(jsonLivro, Livro.class);
+		 super.salvarOuAtualizar(livro);
+		 return new ResponseEntity(HttpStatus.CREATED);
+		 
+	 }
 	
-	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json")
+	
+	 /**
+	  * Retorna a lista de livros cadastrados
+	  * @return JSON String de Livros
+	  * @throws Exception
+	  */
+	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json") 
 	@ResponseBody
 	public String listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
-		return new Gson().toJson(super.lista());
+		return new Gson().toJson(super.consultaPaginada(numeroPagina)); 
 	}
 	
-	@RequestMapping(value="totalPagina", method=RequestMethod.GET, headers = "Accept=application/json")
+	
+	@RequestMapping(value="totalPagina", method=RequestMethod.GET, headers = "Accept=application/json") 
 	@ResponseBody
 	public String totalPagina() throws Exception {
-		return ""+super.quantidadePagina();
+		return ""+super.quantidadePagina(); 
 	}
-	
+	 
+	/**
+	 * Delete o livro informado
+	 * @param codLivro
+	 * @return String vazia como resposta
+	 * @throws Exception
+	 */
 	@RequestMapping(value="deletar/{codLivro}", method=RequestMethod.DELETE)
-	public @ResponseBody String deletar(@PathVariable("codLivro") String codLivro) throws Exception {
-		
+	public  @ResponseBody String deletar (@PathVariable("codLivro") String codLivro) throws Exception {
 		super.deletar(loadObjeto(Long.parseLong(codLivro)));
 		return "";
 	}
 	
+	
+	/**
+	 * Consulta e retorna o livro com o codigo informado
+	 * @param codLivro
+	 * @return JSON livro pesquisado
+	 * @throws Exception
+	 */
 	@RequestMapping(value="buscarlivro/{codLivro}", method=RequestMethod.GET)
-	public @ResponseBody String buscarLivro(@PathVariable("codLivro") String codLivro) throws Exception {
-		
+	public  @ResponseBody String buscarLivro (@PathVariable("codLivro") String codLivro) throws Exception {
 		Livro objeto = super.loadObjeto(Long.parseLong(codLivro));
 		if (objeto == null) {
 			return "{}";

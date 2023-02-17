@@ -28,6 +28,8 @@
 		<mapping class="curso.angular.model.Cliente" />
 		<mapping class="curso.angular.model.Fornecedor" />
 		<mapping class="curso.angular.model.Livro" />
+		<mapping class="curso.angular.model.Pedido" />
+		<mapping class="curso.angular.model.ItemPedido" />
 		
 		
 	</session-factory>

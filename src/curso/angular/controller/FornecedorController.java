@@ -1,4 +1,4 @@
- package curso.angular.controller;
+package curso.angular.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,62 +16,85 @@ import curso.angular.dao.DaoInterface;
 import curso.angular.model.Fornecedor;
 
 @Controller
-@RequestMapping(value="/fornecedor")
-public class FornecedorController extends DaoImplementacao<Fornecedor> implements 
-		DaoInterface<Fornecedor> {
+@RequestMapping(value = "/fornecedor")
+public class FornecedorController extends DaoImplementacao<Fornecedor> implements DaoInterface<Fornecedor> {
 
-	public FornecedorController(Class<Fornecedor> persistenceClass) { 
+	public FornecedorController(Class<Fornecedor> persistenceClass) {
 		super(persistenceClass);
 	}
-	@RequestMapping(value="salvar", method=RequestMethod.POST)
+
+	/**
+	 * Salva ou atualiza o fornecedor
+	 * 
+	 * @param jsonFornecedor
+	 * @return ResponseEntity
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "salvar", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity salvar(@RequestBody String jsonFornecedor) throws Exception {
 		Fornecedor fornecedor = new Gson().fromJson(jsonFornecedor, Fornecedor.class);
-		
+
 		if (fornecedor != null && fornecedor.getAtivo() == null) {
 			fornecedor.setAtivo(false);
 		}
-		
+
 		super.salvarOuAtualizar(fornecedor);
-		return new ResponseEntity<>(HttpStatus.CREATED);
-		
+		return new ResponseEntity(HttpStatus.CREATED);
+
 	}
-	
-	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json")
+
+	/**
+	 * Retorna a lista de fornecedor cadastrados
+	 * 
+	 * @return JSON String de fornecedor
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "listar/{numeroPagina}", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
 	public String listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
-		return new Gson().toJson(super.lista());
+		return new Gson().toJson(super.consultaPaginada(numeroPagina));
 	}
-	@RequestMapping(value="listartodos", method=RequestMethod.GET, headers = "Accept=application/json")
+
+	@RequestMapping(value = "listartodos", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
 	public String listartodos() throws Exception {
 		return new Gson().toJson(super.lista());
 	}
-	
-	@RequestMapping(value="totalPagina", method=RequestMethod.GET, headers = "Accept=application/json")
+
+	@RequestMapping(value = "totalPagina", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
 	public String totalPagina() throws Exception {
-		return ""+super.quantidadePagina();
+		return "" + super.quantidadePagina();
 	}
-	
-	@RequestMapping(value="deletar/{codFornecedor}", method=RequestMethod.DELETE)
+
+	/**
+	 * Delete o fornecedor informado
+	 * 
+	 * @param codFornecedor
+	 * @return String vazia como resposta
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "deletar/{codFornecedor}", method = RequestMethod.DELETE)
 	public @ResponseBody String deletar(@PathVariable("codFornecedor") String codFornecedor) throws Exception {
-		
-		Fornecedor objeto = new Fornecedor();
-		objeto.setId(Long.parseLong(codFornecedor));
-		super.deletar(objeto);
-		
+		super.deletar(loadObjeto(Long.parseLong(codFornecedor)));
 		return "";
 	}
-	
-	@RequestMapping(value="buscarfornecedor/{codFornecedor}", method=RequestMethod.GET)
+
+	/**
+	 * Consulta e retorna o fornecedor com o codigo informado
+	 * 
+	 * @param codFornecedor
+	 * @return JSON fornecedor pesquisado
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "buscarfornecedor/{codFornecedor}", method = RequestMethod.GET)
 	public @ResponseBody String buscarFornecedor(@PathVariable("codFornecedor") String codFornecedor) throws Exception {
-		
 		Fornecedor objeto = super.loadObjeto(Long.parseLong(codFornecedor));
 		if (objeto == null) {
 			return "{}";
 		}
 		return new Gson().toJson(objeto);
 	}
-	
+
 }

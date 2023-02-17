@@ -9,20 +9,20 @@
 
 <br />
 <br />
-<div class="col-lg-9 col-md-8" ng-init="listarFornecedores();">
+
+<div class="col-lg-9 col-md-8"  ng-init="listarFornecedores();">
 	<div class="card">
 		<div class="content">
 			<form id="formLivro" ng-submit="salvarLivro();">
 				<div class="row">
-
+				
 					<div class="col-md-3">
 						<div class="form-group">
-							<img alt="Foto de Capa" id="imagemLivro" src=""
-								style="width: 118px; height: 140px;" border="0"> <input
-								type="file" id="file" onchange="javascript:visualizarImg();">
+							<img alt="Foto de Capa" id="imagemLivro" src=""  style="width: 118px;height: 140px;" border="0">
+							<input type="file"  id="file"  onchange="javascript:visualizarImg();">
 						</div>
 					</div>
-
+				
 					<div class="col-md-3">
 						<div class="form-group">
 							<label>Id</label> <input type="text" ng-model="livro.id"
@@ -30,101 +30,109 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label>Título</label> <input type="text"
-								ng-model="livro.titulo" class="form-control border-input"
-								placeholder="Título" required="required">
-						</div>
-					</div>
-				</div>
 				
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label>Autor(es)</label> <input type="text"
-								ng-model="livro.autor" class="form-control border-input"
-								placeholder="Autor" required="required">
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="descricao">Descricao</label>
-								<textarea cols="12" rows="5"
-								required="required" class="form-control border-input"
-								ng-model="livro.descricao" placeholder="Descrição">
-								</textarea>
+							<label>Título</label> <input type="text" ng-model="livro.titulo"
+								class="form-control border-input" placeholder="Título"
+								required="required">
 						</div>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="form-group">
-							<label for="endereco">Isbn</label> <input id="isbn" type="number"
-								required="required" class="form-control border-input"
-								ng-model="livro.isbn" placeholder="ISBN">
+							<label>Autor(es)</label> <input type="text" ng-model="livro.autor"
+								class="form-control border-input" placeholder="Autor"
+								required="required">
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-							<label for="ano">Ano</label> <input type="number"
-								required="required" class="form-control border-input"
-								ng-model="livro.ano" placeholder="Ano">
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-							<label>Paginas</label> <input type="number" id="pagina"
-								ng-model="livro.pagina" class="form-control border-input"
-								placeholder="Páginas" required="required">
-						</div>
-					</div>
-
 				</div>
 				
-				
 				<div class="row">
-					<div class="col-md-3">
+				<div class="col-md-12">
 						<div class="form-group">
-							<label>Fornecedor</label> <select ng-model="livro.fornecedor.id"
-								id="selectFornecedor" class="form-control">
-								<option value="">Selecione</option>
-								<option ng-repeat="forn in fornecedoresList"
-									value="{{forn.id}}">{{forn.nomeFantasia}}
-								</option>
-							</select>
+							<label for="descricao">Descrição resumida</label> <textarea cols="12" rows="5"
+								required="required" class="form-control border-input"
+								ng-model="livro.descricao" placeholder="Descrição resumida"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label>ISBN</label> <input type="number" id="isbn"
+								ng-model="livro.isbn" class="form-control border-input"
+								placeholder="ISBN" required="required">
+
 						</div>
 					</div>
 					
-				<div class="col-md-3">
+					
+					<div class="col-md-5">
 						<div class="form-group">
-							<label>Preço</label> <input type="text" id="preco"
+							<label>Ano</label> <input type="number" id="ano"
+								ng-model="livro.ano" class="form-control border-input"
+								placeholder="Ano" required="required">
+						</div>
+					</div>
+					
+					
+				<div class="col-md-2">
+						<div class="form-group">
+							<label>Páginas</label> <input type="number" id="pagina"
+								ng-model="livro.paginas" class="form-control border-input"
+								placeholder="Páginas" required="required">
+						</div>
+					</div>	
+					
+				</div>	
+				
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group"> 
+						   <label>Fornecedor</label> 
+							<select ng-model="livro.fornecedor.id"
+							 id="selectFornecedor"
+							  class="form-control"> 
+							  <option value="">Selecione</option> 
+							  <option
+							  	ng-repeat="forn in fornecedoresList"  
+							  	value="{{forn.id}}">{{forn.nomeFantasia}}
+							  </option>
+							</select>	
+						</div>
+					</div>
+					
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Preço</label> <input  id="valor"
 								ng-model="livro.valor" class="form-control border-input"
 								placeholder="Preço" required="required">
 						</div>
-					</div>
+					</div>	
+					
 				</div>
+				
+				
+				
+				<button type="submit" class="btn btn-info btn-fill btn-wd">Cadastrar</button>
+				<button type="submit" class="btn btn-info btn-fill btn-wd"
+					ng-click="$scope.cliente={}">Limpar</button>
+			</form>
 		</div>
-
-		<button type="submit" class="btn btn-info btn-fill btn-wd">Cadastrar</button>
-		<button type="submit" class="btn btn-info btn-fill btn-wd"
-			ng-click="$scope.livro={}">Limpar</button>
-		</form>
 	</div>
-</div>
-
-<script type="text/javascript">
+	<script type="text/javascript">
+		
+		
 		$("#valor").maskMoney({
 			prefix : 'R$ ',
 			thousands : '.',
 			decimal : ',',
 			affixesStay : true
 		});
-</script>
-
+	</script>
 </html>

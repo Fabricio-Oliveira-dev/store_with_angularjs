@@ -1,8 +1,5 @@
 package curso.angular.model;
 
-import java.math.BigDecimal;
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,39 +12,32 @@ import org.hibernate.annotations.ForeignKey;
 
 @Entity
 public class Livro {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String titulo;
 	
 	private String autor;
-	
+
 	private String descricao;
-	
+
 	private Long isbn;
-	
+
 	private Long ano;
-	
+
 	private Long paginas;
-	
+
 	@Column(columnDefinition = "text")
 	private String foto;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@ForeignKey(name="fornecedor_fk")
+	@ForeignKey(name = "fornecedor_fk")
 	private Fornecedor fornecedor;
 	
 	private String valor = "";
 	
-	public void setValor(String valor) {
-		this.valor = valor;
-	}
-	
-	public String getValor() {
-		return valor;
-	}
 	
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
@@ -55,6 +45,14 @@ public class Livro {
 	
 	public String getTitulo() {
 		return titulo;
+	}
+	
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+	
+	public String getValor() {
+		return valor;
 	}
 
 	public Long getId() {
@@ -123,7 +121,10 @@ public class Livro {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -135,7 +136,12 @@ public class Livro {
 		if (getClass() != obj.getClass())
 			return false;
 		Livro other = (Livro) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
-	
+
 }

@@ -1,11 +1,13 @@
 package curso.angular.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,19 +85,65 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 		return persistenceClass;
 	}
 	
+	
 	@Override
+	public List<T> lista(String campoBanco, String valorCampo) throws Exception {
+		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistenceClass());
+		criteria.add(Restrictions.like(campoBanco, valorCampo));
+		criteria.addOrder(Order.asc("id"));
+		return criteria.list();
+	}
+	
+	/*@Override
+	public List<T> lista(String campoBanco, Long valorCampo) throws Exception {
+		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistenceClass());
+		criteria.add(Restrictions.eq(campoBanco, valorCampo));
+		criteria.addOrder(Order.asc("id"));
+		return criteria.list();
+	}
+	*/
+	
+	@Override
+	public List<T> listaLikeExpression(String campoBanco, String valorCampo)
+			throws Exception {
+		 
+		return getSessionFactory().
+				getCurrentSession().
+				createQuery(" select a from " + getPersistenceClass().getSimpleName() + " a where a." + campoBanco + " like'%" + valorCampo + "%'").list();
+	}
+	
+	
+	
+	@Override
+	public List<T> lista(String ids) throws Exception {
+		
+		List<Long> longs = new ArrayList<Long>();
+		
+		String[] strings = ids.split(",");
+		for (int i = 0 ; i < strings.length; i++){
+			longs.add(Long.parseLong(strings[i]));
+		}
+		
+		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistenceClass());
+		criteria.add(Restrictions.in("id", longs));
+		return criteria.list();
+	}
+	
+	
+	/**
+	 * Retorna a lista de objetos de acordo com a pagina offset
+	 * @param numeroPagina
+	 * @return List<T> persistenceClass
+	 * @throws Exception
+	 */
 	public List<T> consultaPaginada(String numeroPagina) throws Exception {
-		
 		int total_por_pagina = 6;
-		
-		if (numeroPagina == null || (numeroPagina != null && numeroPagina.trim().isEmpty()))
-		{
+		if (numeroPagina == null || (numeroPagina != null && numeroPagina.trim().isEmpty())){
 			numeroPagina = "0";
 		}
-		int offSet = (Integer.parseInt(numeroPagina) * total_por_pagina) - total_por_pagina;
+		int offSet = (Integer.parseInt(numeroPagina) * total_por_pagina) - total_por_pagina; 
 		
-		if (offSet < 0)
-		{
+		if (offSet < 0){
 			offSet = 0;
 		}
 		
@@ -103,23 +151,25 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 		criteria.setFirstResult(offSet);
 		criteria.setMaxResults(total_por_pagina);
 		criteria.addOrder(Order.asc("id"));
-		
+
 		return criteria.list();
 	}
-	
+
+	/**
+	 * Retorna a quantidade de paginas de registros
+	 * @return int quantidadePagina
+	 * @throws Exception
+	 */
 	public int quantidadePagina() throws Exception {
 		String sql = "select count(1) as totalRegistros FROM " + getPersistenceClass().getSimpleName();
-		
 		int quantidadePagina = 1;
 		double total_por_pagina = 6.0;
-			
-		SQLQuery find = getSessionFactory().getCurrentSession().createSQLQuery(sql);
-		Object resultSet = find.uniqueResult();
-			
+			SQLQuery find = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+			Object resultSet = find.uniqueResult();
 			if (resultSet != null) {
 				double totalRegistros = Double.parseDouble(resultSet.toString());
-				
 				if (totalRegistros > total_por_pagina){
+					
 					double quantidadePaginaTemp = Float.parseFloat(""+(totalRegistros / total_por_pagina));
 
 					if (!(quantidadePaginaTemp % 2 == 0)){
@@ -134,5 +184,4 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 			}
 		return quantidadePagina;
 	}
-	
 }
