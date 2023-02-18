@@ -1,5 +1,6 @@
 package curso.angular.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,30 @@ public class PedidoController extends DaoImplementacao<Pedido> implements
 
 	public PedidoController(Class<Pedido> persistenceClass) {
 		super(persistenceClass);
+	}
+	
+	@RequestMapping(value="grafico", method = RequestMethod.GET)
+	public @ResponseBody String grafico() {
+		
+		String sql = "select trunc(avg(ip.quantidade),2) as media, l.titulo"
+				+ " from livro l "
+				+ " inner join  itempedido ip on ip.livro_id = l.id"
+				+ " group by l.id";
+		
+		List<Object[]> lista = getSessionFactory().getCurrentSession().createSQLQuery(sql).list();
+		
+		Object[] retorno = new Object[lista.size() + 1];
+		int cont = 0;
+		
+		retorno[cont] = "[\"" + "Livro" +  "\"," + "\"" + "Quantidade " + "\"]";
+		cont ++;
+		
+		for (Object[] object : lista) {
+			retorno[cont] = "[\"" + object[1] +  "\"," + "\"" + object[0] + "\"]";
+			cont ++;
+		}
+				
+		return Arrays.toString(retorno);
 	}
 
 	@RequestMapping(value = "finalizar", method = RequestMethod.POST)
