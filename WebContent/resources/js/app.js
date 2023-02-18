@@ -87,6 +87,22 @@ app.config(function($routeProvider) {
 });
 app.controller('lojaController', function($scope, $http, $location, $routeParams) {
 	
+	$scope.listarPedidos = function () {
+		$http.get("pedido/listar").success(function(response) {
+			$scope.pedidosData = response;
+			}).error(function(response) {
+				erro("Error" + response);
+			});
+	};
+	
+	$scope.removerPedido = function (codPedido) {
+		$http.delete("pedido/deletar/"+codPedido).success(function(response) {
+			$scope.pedidosData = response;
+			}).error(function(response) {
+				erro("Error" + response);
+			});
+	};
+	
 	if ($routeParams.codigoPedido != null) {
 		$scope.codigoPedido = $routeParams.codigoPedido;
 	}

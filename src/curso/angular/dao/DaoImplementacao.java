@@ -94,14 +94,14 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 		return criteria.list();
 	}
 	
-	/*@Override
+	@Override
 	public List<T> lista(String campoBanco, Long valorCampo) throws Exception {
 		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistenceClass());
 		criteria.add(Restrictions.eq(campoBanco, valorCampo));
 		criteria.addOrder(Order.asc("id"));
 		return criteria.list();
 	}
-	*/
+	
 	
 	@Override
 	public List<T> listaLikeExpression(String campoBanco, String valorCampo)

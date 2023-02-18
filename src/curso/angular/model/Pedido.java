@@ -1,17 +1,13 @@
 package curso.angular.model;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -32,17 +28,6 @@ public class Pedido {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data = Calendar.getInstance().getTime();
-	
-	@OneToMany(mappedBy="pedido", cascade=CascadeType.ALL)
-	private List<ItemPedido> itemPedidos = new ArrayList<ItemPedido>();
-	
-	public void setItemPedidos(List<ItemPedido> itemPedidos) {
-		this.itemPedidos = itemPedidos;
-	}
-	
-	public List<ItemPedido> getItemPedidos() {
-		return itemPedidos;
-	}
 	
 	public Long getId() {
 		return id;

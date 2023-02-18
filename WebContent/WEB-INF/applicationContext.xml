@@ -82,5 +82,9 @@
 		class="curso.angular.controller.PedidoController">
 		<constructor-arg value="curso.angular.model.Pedido" />
 	</bean>
+	
+	<bean id="fileDownloadController" name="FileDownloadController"
+		class="curso.angular.controller.FileDownloadController">
+	</bean>
 </beans>
 
