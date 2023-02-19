@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Login</title>
+<script type="text/javascript">
+function processarContext() {
+	var context = "/" + window.location.pathname.split('/')[1] + '/j_spring_security_check';
+	document.getElementById("formulario").action = context;
+}
+</script>
+</head>
+<body>
+	<div align="center" style="padding-top: 100px;">
+	
+		<form id="formulario" method="post" name="formulario"
+			action="/angularjs_spring_mvc_pessoal/j_spring_security_check">
+
+			<label>Login</label>
+			<input type="text" name="j_username" id="j_username" />
+			
+			<label>Senha</label>
+			<input type="password" name="j_password" id="j_password" />
+
+			<button type="submit" id="buttonLogin">Entrar</button>
+		</form>
+	</div>
+
+</body>
+</html>

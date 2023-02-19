@@ -1,7 +1,16 @@
 package curso.angular.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -78,6 +87,28 @@ public class LivroController extends DaoImplementacao<Livro> implements
 			return "{}";
 		}
 		return new Gson().toJson(objeto);
+	}
+	
+	@RequestMapping(value="autenticar", method=RequestMethod.GET)
+	public  @ResponseBody String autenticar () throws Exception {
+		
+		Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("permissao", true);
+		map.put("user", authentication.getName());
+		
+		List<String> permissoes = new ArrayList<String>();
+		
+		Iterator<GrantedAuthority> iterator = (Iterator<GrantedAuthority>) authentication.getAuthorities().iterator();
+		
+		while (iterator.hasNext()) {
+			permissoes.add(iterator.next().getAuthority());
+		}
+		
+		map.put("permissao", permissoes);
+		
+		return new Gson().toJson(map);
 	}
 	
 }

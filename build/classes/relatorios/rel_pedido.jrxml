@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rel_pedido" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cbc93aeb-72a8-4433-8147-601f312e4195">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="itens" class="java.util.ArrayList">
+		<fieldDescription><![CDATA[itens]]></fieldDescription>
+	</field>
+	<field name="pedido" class="curso.angular.model.Pedido">
+		<fieldDescription><![CDATA[pedido]]></fieldDescription>
+	</field>
+	<field name="Field_1" class="java.lang.String"/>
+	<field name="cliente" class="curso.angular.model.Cliente">
+		<fieldDescription><![CDATA[cliente]]></fieldDescription>
+	</field>
+	<field name="data" class="java.util.Date">
+		<fieldDescription><![CDATA[data]]></fieldDescription>
+	</field>
+	<field name="valorTotal" class="java.lang.String">
+		<fieldDescription><![CDATA[valorTotal]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="168" splitType="Stretch">
+			<staticText>
+				<reportElement x="416" y="49" width="50" height="30" uuid="552d44db-a80f-4bf3-88a6-f33680edf994"/>
+				<text><![CDATA[Valor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="48" width="90" height="30" uuid="a82d5da6-88db-4dc8-84b1-e19a448dd0c8"/>
+				<textFieldExpression><![CDATA[$F{pedido}.getId()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="130" y="48" width="50" height="30" uuid="1e25ed56-5e4e-47de-bc3c-9ed208da665c"/>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="49" width="236" height="30" uuid="f6e69798-7b27-4515-b5e1-46103885de39"/>
+				<textFieldExpression><![CDATA[$F{pedido}.getCliente().getNome()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="466" y="49" width="90" height="30" uuid="cf31d4dd-4885-4845-9319-19283c12bd4c"/>
+				<textFieldExpression><![CDATA[$F{pedido}.getValorTotal()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="0" width="200" height="30" uuid="0e9a3d49-75bc-4068-a6d6-1065175e5fb0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Loja de Livros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="48" width="40" height="30" uuid="ae8b54b7-3876-446b-a735-adb4d83e9349"/>
+				<text><![CDATA[Pedido:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="100" width="70" height="30" uuid="cadbaf8f-4224-47b8-8c0e-abe27675ac50">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[ID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="100" width="347" height="30" uuid="97a1fd4a-1939-4144-b508-bce0c54b1fa2">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Título]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="416" y="100" width="138" height="30" uuid="b82751bb-beec-4259-aeb8-9b9a5cec21e8">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="130" width="556" height="1" uuid="638e5c58-6639-4eb8-8187-16b150f0e54c"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="199" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="-1" width="556" height="200" uuid="5a39a058-2d5d-46e1-b7a3-e13dc0fc3f42"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{itens})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["rel_pedido_subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
