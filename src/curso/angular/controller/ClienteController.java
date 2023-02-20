@@ -55,8 +55,8 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 	  */
 	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json") 
 	@ResponseBody
-	public String listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
-		return new Gson().toJson(super.consultaPaginada(numeroPagina)); 
+	public byte[] listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
+		return new Gson().toJson(super.consultaPaginada(numeroPagina)).getBytes("UTF-8"); 
 	}
 	
 	
@@ -86,12 +86,12 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 	 * @throws Exception
 	 */
 	@RequestMapping(value="buscarcliente/{codCliente}", method=RequestMethod.GET)
-	public  @ResponseBody String buscarCliente (@PathVariable("codCliente") String codCliente) throws Exception {
+	public  @ResponseBody byte[] buscarCliente (@PathVariable("codCliente") String codCliente) throws Exception {
 		Cliente objeto = super.loadObjeto(Long.parseLong(codCliente));
 		if (objeto == null) {
-			return "{}";
+			return "{}".getBytes("UTF-8");
 		}
-		return new Gson().toJson(objeto);
+		return new Gson().toJson(objeto).getBytes("UTF-8");
 	}
 	
 	
@@ -102,15 +102,15 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 	 * @throws Exception
 	 */
 	@RequestMapping(value="buscarnome/{nomeCliente}", method=RequestMethod.GET)
-	public  @ResponseBody String buscarNome (@PathVariable("nomeCliente") String nomeCliente) throws Exception {
+	public  @ResponseBody byte[] buscarNome (@PathVariable("nomeCliente") String nomeCliente) throws Exception {
 		List<Cliente> clientes = new ArrayList<Cliente>();
 		clientes = super.listaLikeExpression("nome", nomeCliente);
 
 		if (clientes == null || clientes.isEmpty() ) {
-			return "{}";
+			return "{}".getBytes("UTF-8");
 		}
 		
-		return new Gson().toJson(clientes);
+		return new Gson().toJson(clientes).getBytes("UTF-8");
 	}
 	
 }

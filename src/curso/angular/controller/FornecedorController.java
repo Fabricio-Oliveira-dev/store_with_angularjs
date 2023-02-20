@@ -30,6 +30,7 @@ public class FornecedorController extends DaoImplementacao<Fornecedor> implement
 	 * @return ResponseEntity
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "salvar", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity salvar(@RequestBody String jsonFornecedor) throws Exception {
@@ -52,14 +53,14 @@ public class FornecedorController extends DaoImplementacao<Fornecedor> implement
 	 */
 	@RequestMapping(value = "listar/{numeroPagina}", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
-	public String listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
-		return new Gson().toJson(super.consultaPaginada(numeroPagina));
+	public byte[] listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
+		return new Gson().toJson(super.consultaPaginada(numeroPagina)).getBytes("UTF-8");
 	}
 
 	@RequestMapping(value = "listartodos", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
-	public String listartodos() throws Exception {
-		return new Gson().toJson(super.lista());
+	public byte[] listartodos() throws Exception {
+		return new Gson().toJson(super.lista()).getBytes("UTF-8");
 	}
 
 	@RequestMapping(value = "totalPagina", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -89,12 +90,12 @@ public class FornecedorController extends DaoImplementacao<Fornecedor> implement
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "buscarfornecedor/{codFornecedor}", method = RequestMethod.GET)
-	public @ResponseBody String buscarFornecedor(@PathVariable("codFornecedor") String codFornecedor) throws Exception {
+	public @ResponseBody byte[] buscarFornecedor(@PathVariable("codFornecedor") String codFornecedor) throws Exception {
 		Fornecedor objeto = super.loadObjeto(Long.parseLong(codFornecedor));
 		if (objeto == null) {
-			return "{}";
+			return "{}".getBytes("UTF-8");
 		}
-		return new Gson().toJson(objeto);
+		return new Gson().toJson(objeto).getBytes("UTF-8");
 	}
 
 }
