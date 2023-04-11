@@ -21,6 +21,7 @@ public class Livro {
 	
 	private String autor;
 
+	@Column(columnDefinition = "text")
 	private String descricao;
 
 	private Long isbn;
@@ -37,7 +38,6 @@ public class Livro {
 	private Fornecedor fornecedor;
 	
 	private String valor = "";
-	
 	
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
@@ -143,5 +143,4 @@ public class Livro {
 			return false;
 		return true;
 	}
-
 }

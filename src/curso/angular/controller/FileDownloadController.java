@@ -25,7 +25,6 @@ import curso.angular.model.PedidoBean;
 @RequestMapping("/imprimirPedido")
 public class FileDownloadController {
 	
-	
 	@Autowired
 	private ReportUtil reportUtil;
 	
@@ -47,12 +46,12 @@ public class FileDownloadController {
 
 	/**
 	 * Método para tratamento de solicitação de download de arquivo do cliente
-	 * @throws Exception 
-	 * @throws NumberFormatException 
 	 */
 	@RequestMapping(value="pedido/{codigoPedido}", method = RequestMethod.GET)
-	public void downloadPdfPedido(HttpServletRequest request,
-			HttpServletResponse response, @PathVariable("codigoPedido") String codigoPedido) throws NumberFormatException, Exception {
+	public void downloadPdfPedido(
+			HttpServletRequest request,
+			HttpServletResponse response, 
+			@PathVariable("codigoPedido") String codigoPedido) throws NumberFormatException, Exception {
 
 		ServletContext context = request.getServletContext();
 		
@@ -72,25 +71,24 @@ public class FileDownloadController {
 				"rel_pedido", 
 				context);
 		
-		//Construir o caminho completo absoluto do arquivo
+		//Construir o caminho absoluto do arquivo
 		File downloadFile = new File(filePath);
 		FileInputStream inputStream = new FileInputStream(downloadFile);
 
 		//Obter o tipo MIME do arquivo
 		String mimeType = context.getMimeType(filePath);
 		if (mimeType == null) {
-			// Definido como tipo binário se mapeamento MIME não encontrado
+			// Definido como tipo binário se mapeamento MIME não for encontrado
 			mimeType = "application/octet-stream";
 		}
 
-		// Definir atributos de conteúdo para a resposta
+		// Definir atributos de conteúdo para resposta
 		response.setContentType(mimeType);
 		response.setContentLength((int) downloadFile.length());
 
-		// Definir cabeçalhos para a resposta
+		// Definir cabeçalhos para resposta
 		String headerKey = "Content-Disposition";
-		String headerValue = String.format("attachment; filename=\"%s\"",
-				downloadFile.getName());
+		String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
 		response.setHeader(headerKey, headerValue);
 
 		// Obter o fluxo de saída da resposta
@@ -103,9 +101,7 @@ public class FileDownloadController {
 		while ((bytesRead = inputStream.read(buffer)) != -1) {
 			outStream.write(buffer, 0, bytesRead);
 		}
-
 		inputStream.close();
 		outStream.close();
-
 	}
 }

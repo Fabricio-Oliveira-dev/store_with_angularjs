@@ -7,7 +7,7 @@ app.controller('clienteController', function($scope, $http, $location, $routePar
 			$scope.cliente = response;
 			
 			document.getElementById("imagemCliente").src = $scope.cliente.foto;
-			//------------------ carrega estados e cidades do cliente em edi��o
+			//------------------ carrega estados e cidades do cliente em edição
 			setTimeout(function () {
 				$("#selectEstados").prop('selectedIndex', (new Number($scope.cliente.estados.id) + 1));
 				
@@ -28,17 +28,15 @@ app.controller('clienteController', function($scope, $http, $location, $routePar
 			erro("Error: " + status);
 		});
 		
-	}else { // novo cliente
+	} else { // novo cliente
 		$scope.cliente = {};
 	}
-	
 	
 	$scope.editarCliente = function(id) {
 		$location.path('clienteedit/' + id);
 	};
 	
-	
-	// Respons�vel por salvar o cliente ou editar os dados
+	// Responsável por salvar o cliente ou editar os dados
 	$scope.salvarCliente = function() {
 				$scope.cliente.foto = document.getElementById("imagemCliente").getAttribute("src");
 				
@@ -60,19 +58,19 @@ app.controller('clienteController', function($scope, $http, $location, $routePar
 			
 			if (response == null || response == '') {
 				$scope.ocultarNavegacao = true;
-			}else {
+			} else {
 				$scope.ocultarNavegacao = false;
 			}
 			
 			$scope.data = response;
 			
-			//---------Inicio total p�gina----------
+			//---------Inicio total página----------
 				$http.get("cliente/totalPagina").success(function(response) {
 					$scope.totalPagina = response;
 				}).error(function(response) {
 					erro("Error: " + response);
 				});
-			//---------Fim total p�gina----------
+			//---------Fim total página----------
 			
 		}).error(function(response) {
 			erro("Error: " + response);
@@ -92,7 +90,7 @@ app.controller('clienteController', function($scope, $http, $location, $routePar
 		}
 	};
 	
-	// remover cliente passado como parametro
+	// remover cliente passado como parâmetro
 	$scope.removerCliente = function(codCliente) {
 		$http.delete("cliente/deletar/" + codCliente).success(function(response) {
 			$scope.listarClientes($scope.numeroPagina);
@@ -102,8 +100,7 @@ app.controller('clienteController', function($scope, $http, $location, $routePar
 		});
 	};
 	
-	
-	// carrega as cidades de acordo com o estado passado por parametro
+	// carrega as cidades de acordo com o estado passado por parâmetro
 	$scope.carregarCidades = function(estado) {
 		if (identific_nav() != 'chrome') {// executa se for diferente do chrome
 			$http.get("cidades/listar/" + estado.id).success(function(response) {

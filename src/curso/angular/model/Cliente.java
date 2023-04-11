@@ -12,11 +12,6 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ForeignKey;
 
-/**
- * Modelo que representa a tabel de Cliente do banco
- * @author alex
- *
- */
 @Entity
 public class Cliente implements Serializable {
 
@@ -43,7 +38,6 @@ public class Cliente implements Serializable {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@ForeignKey(name="estados_fk")
 	private Estados estados = new Estados();
-	
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@ForeignKey(name="cidades_fk")
@@ -72,11 +66,9 @@ public class Cliente implements Serializable {
 		this.cidades = cidades;
 	}
 	
-	
 	public Cidades getCidades() {
 		return cidades;
 	}
-	
 	
 	public void setEstados(Estados estados) {
 		this.estados = estados;
@@ -169,5 +161,4 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
-
 }

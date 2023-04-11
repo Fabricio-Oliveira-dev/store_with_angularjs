@@ -59,9 +59,9 @@ app.config(function($routeProvider) {
 				controller : "lojaController",
 				templateUrl : "loja/online.html"
 			})
-			.when("/loja/itensLoja/:itens", {
+			.when("/loja/intensLoja/:itens", {
 				controller : "lojaController",
-				templateUrl : "loja/itensLoja.html"
+				templateUrl : "loja/intensLoja.html"
 			})
 			
 			.when("/loja/pedidoconfirmado/:codigoPedido", {
@@ -82,8 +82,6 @@ app.config(function($routeProvider) {
 			.otherwise({
 				redirectTo : "/"
 			});
-			
-			
 });
 
 // mostra msg de sucesso
@@ -108,7 +106,7 @@ function erro(msg) {
     });
 }
 
-// faz a identifica��o da posi��o correta da cidade do registro para mostrar em edi��o
+// faz a identificação da posição correta da cidade do registro para mostrar em edição
 function buscarKeyJson(obj, key, value)
 {
     for (var i = 0; i < obj.length; i++) {
@@ -119,9 +117,9 @@ function buscarKeyJson(obj, key, value)
     return null;
 }
 
-// carregar cidades quando � navegador chrome usando jQuery
+// carregar cidades quando o navegador é chrome usando jQuery
 function carregarCidadesChrome(estado) {
-	if (identific_nav() === 'chrome') {// executa se for chrome
+	if (identific_nav() === 'chrome') {
 		$.get("cidades/listarchrome", { idEstado : estado.value}, function(data) {
 			 var json = JSON.parse(data);
 			 html = '<option value="">--Selecione--</option>';
@@ -148,7 +146,6 @@ function visualizarImg() {
 	  } else {
 	    preview.src = "";
 	  }
-	  
 }
 
 // identificar navegador
@@ -156,17 +153,17 @@ function identific_nav(){
     var nav = navigator.userAgent.toLowerCase();
     if(nav.indexOf("msie") != -1){
        return browser = "msie";
-    }else if(nav.indexOf("opera") != -1){
+    } else if(nav.indexOf("opera") != -1){
     	return browser = "opera";
-    }else if(nav.indexOf("mozilla") != -1){
+    } else if(nav.indexOf("mozilla") != -1){
         if(nav.indexOf("firefox") != -1){
         	return  browser = "firefox";
-        }else if(nav.indexOf("firefox") != -1){
+        } else if(nav.indexOf("firefox") != -1){
         	return browser = "mozilla";
-        }else if(nav.indexOf("chrome") != -1){
+        } else if(nav.indexOf("chrome") != -1){
         	return browser = "chrome";
         }
-    }else{
+    } else{
     	alert("Navegador desconhecido!");
     }
 }

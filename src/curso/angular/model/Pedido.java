@@ -23,12 +23,21 @@ public class Pedido {
 	@ManyToOne
 	@ForeignKey(name = "cliente_fk")
 	private Cliente cliente;
-	private String valorTotal;
 	
+	private String valorTotal;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data = Calendar.getInstance().getTime();
 	
+	
+	public void setData(Date data) {
+		this.data = data;
+	}
+	
+	public Date getData() {
+		return data;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -51,14 +60,6 @@ public class Pedido {
 
 	public void setValorTotal(String valorTotal) {
 		this.valorTotal = valorTotal;
-	}
-
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
 	}
 
 	@Override
@@ -85,5 +86,4 @@ public class Pedido {
 			return false;
 		return true;
 	}
-
 }

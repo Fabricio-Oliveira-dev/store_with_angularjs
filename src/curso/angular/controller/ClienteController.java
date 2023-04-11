@@ -1,4 +1,4 @@
- package curso.angular.controller;
+package curso.angular.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,7 @@ import curso.angular.model.Cliente;
 
 @Controller
 @RequestMapping(value="/cliente")
-public class ClienteController extends DaoImplementacao<Cliente> implements 
-		DaoInterface<Cliente> {
+public class ClienteController extends DaoImplementacao<Cliente> implements DaoInterface<Cliente> {
 
 	public ClienteController(Class<Cliente> persistenceClass) { 
 		super(persistenceClass); 
@@ -29,9 +28,7 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 	  
 	/**
 	 * Salva ou atualiza o cliente
-	 * @param jsonCliente
 	 * @return ResponseEntity
-	 * @throws Exception
 	 */
 	 @RequestMapping(value="salvar", method= RequestMethod.POST)
 	 @ResponseBody
@@ -43,22 +40,18 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 		 }
 		 
 		 super.salvarOuAtualizar(cliente);
-		 return new ResponseEntity<>(HttpStatus.CREATED);
-		 
+		 return new ResponseEntity(HttpStatus.CREATED);
 	 }
-	
 	
 	 /**
 	  * Retorna a lista de clientes cadastrados
 	  * @return JSON String de Clientes
-	  * @throws Exception
 	  */
 	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json") 
 	@ResponseBody
 	public byte[] listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
 		return new Gson().toJson(super.consultaPaginada(numeroPagina)).getBytes("UTF-8"); 
 	}
-	
 	
 	@RequestMapping(value="totalPagina", method=RequestMethod.GET, headers = "Accept=application/json") 
 	@ResponseBody
@@ -68,9 +61,7 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 	 
 	/**
 	 * Delete o cliente informado
-	 * @param codCliente
 	 * @return String vazia como resposta
-	 * @throws Exception
 	 */
 	@RequestMapping(value="deletar/{codCliente}", method=RequestMethod.DELETE)
 	public  @ResponseBody String deletar (@PathVariable("codCliente") String codCliente) throws Exception {
@@ -78,28 +69,23 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 		return "";
 	}
 	
-	
 	/**
-	 * Consulta e retorna o cliente com o codigo informado
-	 * @param codCliente
+	 * Consulta e retorna o cliente com o código informado
 	 * @return JSON cliente pesquisado
-	 * @throws Exception
 	 */
 	@RequestMapping(value="buscarcliente/{codCliente}", method=RequestMethod.GET)
 	public  @ResponseBody byte[] buscarCliente (@PathVariable("codCliente") String codCliente) throws Exception {
 		Cliente objeto = super.loadObjeto(Long.parseLong(codCliente));
+		
 		if (objeto == null) {
 			return "{}".getBytes("UTF-8");
 		}
 		return new Gson().toJson(objeto).getBytes("UTF-8");
 	}
 	
-	
 	/**
 	 * Consulta e retorna o cliente com o nome  informado
-	 * @param nomeCliente
 	 * @return JSON cliente pesquisado
-	 * @throws Exception
 	 */
 	@RequestMapping(value="buscarnome/{nomeCliente}", method=RequestMethod.GET)
 	public  @ResponseBody byte[] buscarNome (@PathVariable("nomeCliente") String nomeCliente) throws Exception {
@@ -109,8 +95,6 @@ public class ClienteController extends DaoImplementacao<Cliente> implements
 		if (clientes == null || clientes.isEmpty() ) {
 			return "{}".getBytes("UTF-8");
 		}
-		
 		return new Gson().toJson(clientes).getBytes("UTF-8");
 	}
-	
 }

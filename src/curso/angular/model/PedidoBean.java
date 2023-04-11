@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class PedidoBean {
 
 	private Pedido pedido = new Pedido();
+	
 	private ArrayList<ItemPedido> itens = new ArrayList<ItemPedido>();
 
 	public void setPedido(Pedido pedido) {
@@ -22,5 +23,4 @@ public class PedidoBean {
 	public ArrayList<ItemPedido> getItens() {
 		return itens;
 	}
-
 }

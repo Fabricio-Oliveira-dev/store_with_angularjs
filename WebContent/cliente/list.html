@@ -1,18 +1,18 @@
 <html ng-app="loja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <h1>Lista de clientes</h1>
 
-
 <a href="#cliente/cadastro">Novo
-<img alt="Novo" src="resources/img/add-icon.png" border="0">
+	<img alt="Novo" src="resources/img/add-icon.png" border="0">
 </a>
 
-<br/>
-<br/>
-<label>Filtro <input class="form-control" type="text" ng-model="filtro"></label><br>
-<br/>
+<br />
+<br />
+<label>Filtro <input class="form-control" type="text" ng-model="filtro"></label>
+<br>
+<br />
 
 <div ng-controller="clienteController" ng-init="listarClientes(1)">
 
@@ -28,25 +28,32 @@
 				<th>Editar</th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="cliente in data | filter:filtro"> 
+				<tr ng-repeat="cliente in data | filter:filtro">
 					<td>{{cliente.id}}</td>
-					<td><img src="{{cliente.foto}}" style="width: 40px; height: 43px"/></td>
+					<td>
+						<img src="{{cliente.foto}}" style="width: 40px; height: 43px" />
+					</td>
 					<td>{{cliente.nome}}</td>
 					<td>{{cliente.endereco}}</td>
 					<td>{{cliente.telefone}}</td>
-					<td> <a href ng-click="removerCliente(cliente.id);">Apagar
-					 <img alt="Remover" src="resources/img/delete-icon.png" border="0">
-					</a></td>
-					<td> <a href ng-click="editarCliente(cliente.id);">Editar
-					 <img alt="Editar" src="resources/img/edit-icon.png" border="0">
-					</a></td>
+					<td>
+						<a href ng-click="removerCliente(cliente.id);">Apagar
+							<img alt="Remover" src="resources/img/delete-icon.png" border="0">
+						</a>
+					</td>
+					<td>
+						<a href ng-click="editarCliente(cliente.id);">Editar 
+							<img alt="Editar" src="resources/img/edit-icon.png" border="0">
+						</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
+		
 		<div class="text-center" ng-hide="ocultarNavegacao">
-		   <button type="button" class="btn btn-info btn-fill btn-wd" ng-click="anterior();">Anterior</button>
-		   <button type="button" class="btn btn-info btn-fill btn-wd" ng-click="proximo();">Próximo</button>
-		</div>   
+			<button type="button" class="btn btn-info btn-fill btn-wd" ng-click="anterior();">Anterior</button>
+			<button type="button" class="btn btn-info btn-fill btn-wd" ng-click="proximo();">Próximo</button>
+		</div>
 	</div>
 
 </div>

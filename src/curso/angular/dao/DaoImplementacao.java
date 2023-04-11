@@ -12,11 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import curso.angular.hibernate.HibernateUtil;
-/**
- * Implementa��o dos metodos padr�es da interface de acesso ao banco e opera��es
- * @author alex
- * @param <T>
- */
+
+//Implementação dos metodos padrões da interface de acesso ao banco e operações
 @Transactional(noRollbackFor = Exception.class)
 @Service
 public abstract class DaoImplementacao<T> implements DaoInterface<T> {
@@ -33,7 +30,7 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 	@Override
 	public void salvar(T objeto) throws Exception {
 		sessionFactory.getCurrentSession().save(objeto);
-		 sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().flush();
 	}
 
 	@Override
@@ -59,10 +56,9 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 	public T merge(T objeto) throws Exception {
 		 T t =  (T) sessionFactory.getCurrentSession().merge(objeto);
 		 sessionFactory.getCurrentSession().flush();
+		 
 		 return t;
-		
 	}
-	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -85,12 +81,12 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 		return persistenceClass;
 	}
 	
-	
 	@Override
 	public List<T> lista(String campoBanco, String valorCampo) throws Exception {
 		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistenceClass());
 		criteria.add(Restrictions.like(campoBanco, valorCampo));
 		criteria.addOrder(Order.asc("id"));
+		
 		return criteria.list();
 	}
 	
@@ -99,20 +95,18 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistenceClass());
 		criteria.add(Restrictions.eq(campoBanco, valorCampo));
 		criteria.addOrder(Order.asc("id"));
+		
 		return criteria.list();
 	}
 	
-	
 	@Override
-	public List<T> listaLikeExpression(String campoBanco, String valorCampo)
-			throws Exception {
+	public List<T> listaLikeExpression(String campoBanco, String valorCampo) throws Exception {
 		 
-		return getSessionFactory().
-				getCurrentSession().
-				createQuery(" select a from " + getPersistenceClass().getSimpleName() + " a where a." + campoBanco + " like'%" + valorCampo + "%'").list();
+		return getSessionFactory()
+				.getCurrentSession()
+				.createQuery(" SELECT a FROM " + getPersistenceClass()
+				.getSimpleName() + " a WHERE a." + campoBanco + " LIKE'%" + valorCampo + "%'").list();
 	}
-	
-	
 	
 	@Override
 	public List<T> lista(String ids) throws Exception {
@@ -126,23 +120,22 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 		
 		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(getPersistenceClass());
 		criteria.add(Restrictions.in("id", longs));
+		
 		return criteria.list();
 	}
 	
 	
 	/**
-	 * Retorna a lista de objetos de acordo com a pagina offset
-	 * @param numeroPagina
+	 * Retorna a lista de objetos de acordo com a página offset
 	 * @return List<T> persistenceClass
-	 * @throws Exception
 	 */
 	public List<T> consultaPaginada(String numeroPagina) throws Exception {
 		int total_por_pagina = 6;
 		if (numeroPagina == null || (numeroPagina != null && numeroPagina.trim().isEmpty())){
 			numeroPagina = "0";
 		}
-		int offSet = (Integer.parseInt(numeroPagina) * total_por_pagina) - total_por_pagina; 
 		
+		int offSet = (Integer.parseInt(numeroPagina) * total_por_pagina) - total_por_pagina; 
 		if (offSet < 0){
 			offSet = 0;
 		}
@@ -156,29 +149,28 @@ public abstract class DaoImplementacao<T> implements DaoInterface<T> {
 	}
 
 	/**
-	 * Retorna a quantidade de paginas de registros
+	 * Retorna a quantidade de páginas de registros
 	 * @return int quantidadePagina
-	 * @throws Exception
 	 */
 	public int quantidadePagina() throws Exception {
-		String sql = "select count(1) as totalRegistros FROM " + getPersistenceClass().getSimpleName();
+		String sql = "SELECT COUNT(1) AS totalRegistros FROM " + getPersistenceClass().getSimpleName();
 		int quantidadePagina = 1;
 		double total_por_pagina = 6.0;
-			SQLQuery find = getSessionFactory().getCurrentSession().createSQLQuery(sql);
-			Object resultSet = find.uniqueResult();
-			if (resultSet != null) {
-				double totalRegistros = Double.parseDouble(resultSet.toString());
-				if (totalRegistros > total_por_pagina){
-					
+			
+		SQLQuery find = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+		Object resultSet = find.uniqueResult();
+			
+		if (resultSet != null) {
+			double totalRegistros = Double.parseDouble(resultSet.toString());
+				if (totalRegistros > total_por_pagina) {
 					double quantidadePaginaTemp = Float.parseFloat(""+(totalRegistros / total_por_pagina));
 
-					if (!(quantidadePaginaTemp % 2 == 0)){
+					if (!(quantidadePaginaTemp % 2 == 0)) {
 						quantidadePagina =   new Double(quantidadePaginaTemp).intValue() + 1;
-					}
-					else {
+					} else {
 						quantidadePagina = new Double(quantidadePaginaTemp).intValue();
 					}
-				}else {
+				} else {
 					quantidadePagina = 1;
 				}
 			}

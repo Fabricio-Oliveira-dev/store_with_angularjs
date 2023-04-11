@@ -21,8 +21,7 @@ import curso.angular.model.PedidoBean;
 
 @Controller
 @RequestMapping(value = "/pedido")
-public class PedidoController extends DaoImplementacao<Pedido> implements
-		DaoInterface<Pedido> {
+public class PedidoController extends DaoImplementacao<Pedido> implements DaoInterface<Pedido> {
 
 	@Autowired
 	private ItemPedidoController itemPedidoController;
@@ -30,20 +29,18 @@ public class PedidoController extends DaoImplementacao<Pedido> implements
 	public PedidoController(Class<Pedido> persistenceClass) {
 		super(persistenceClass);
 	}
-	
-	@RequestMapping(value="grafico", method = RequestMethod.GET)
+
+	@RequestMapping(value = "grafico", method = RequestMethod.GET)
 	public @ResponseBody String grafico() {
-		
-		String sql = "select trunc(avg(ip.quantidade),2) as media, l.titulo"
-				+ " from livro l "
-				+ " inner join  itempedido ip on ip.livro_id = l.id"
-				+ " group by l.id";
+
+		String sql = "SELECT TRUNC(AVG(ip.quantidade),2) AS media, l.titulo"
+				+ " FROM livro l "
+				+ " INNER JOIN  itempedido ip ON ip.livro_id = l.id"
+				+ " GROUP BY l.id";
 		
 		List<Object[]> lista = getSessionFactory().getCurrentSession().createSQLQuery(sql).list();
-		
 		Object[] retorno = new Object[lista.size() + 1];
 		int cont = 0;
-		
 		retorno[cont] = "[\"" + "Livro" +  "\"," + "\"" + "Quantidade " + "\"]";
 		cont ++;
 		
@@ -51,8 +48,7 @@ public class PedidoController extends DaoImplementacao<Pedido> implements
 			retorno[cont] = "[\"" + object[1] +  "\"," + "\"" + object[0] + "\"]";
 			cont ++;
 		}
-				
-		return Arrays.toString(retorno);
+		return Arrays.toString(retorno); 
 	}
 
 	@RequestMapping(value = "finalizar", method = RequestMethod.POST)
@@ -62,37 +58,32 @@ public class PedidoController extends DaoImplementacao<Pedido> implements
 		PedidoBean pedidoBean = new Gson().fromJson(jsonPedido, PedidoBean.class);
 
 		Pedido pedido = pedidoBean.getPedido();
-
 		pedido = super.merge(pedido);
 
 		List<ItemPedido> inItemPedidos = pedidoBean.getItens();
-
 		for (ItemPedido itemPedido : inItemPedidos) {
 			itemPedido.setPedido(pedido);
 			itemPedidoController.salvar(itemPedido);
 		}
-
 		return pedido.getId().toString();
+	}
 
-	}
-	
-	@RequestMapping(value="listar", method=RequestMethod.GET, headers = "Accept=application/json") 
+	@RequestMapping(value = "listar", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
-	public String listar() throws Exception {
-		return new Gson().toJson(super.lista()); 
+	public byte[] listar() throws Exception {
+		return new Gson().toJson(super.lista()).getBytes("UTF-8");
 	}
-	
-	@RequestMapping(value="deletar/{codPedido}", method=RequestMethod.DELETE)
-	public  @ResponseBody String deletar (@PathVariable("codPedido") String codPedido) throws Exception {
-		
+
+	@RequestMapping(value = "deletar/{codPedido}", method = RequestMethod.DELETE)
+	public @ResponseBody String deletar(@PathVariable("codPedido") String codPedido) throws Exception {
+
 		List<ItemPedido> itemPedidos = itemPedidoController.lista("pedido.id", Long.parseLong(codPedido));
-		
+
 		for (ItemPedido itemPedido : itemPedidos) {
 			itemPedidoController.deletar(itemPedido);
 		}
-		
 		super.deletar(loadObjeto(Long.parseLong(codPedido)));
+		
 		return new Gson().toJson(super.lista());
 	}
-
 }

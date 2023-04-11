@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<context reloadable="true">
+<Context reloadable="true">
 	<Resource	
 				name="jdbc/datasouce" 
 				auth="Container" 
@@ -20,7 +20,7 @@
                 antiResourceLocking="false"
 				username="postgres" 
 				password="admin" 
-				url="jdbc:postgresql://localhost:5432/angularjs_spring_restful_pessoal?autoReconnect=true"/>
+				url="jdbc:postgresql://localhost:5432/store_with_angularjs?autoReconnect=true"/>
 				
 	<!-- http://tomee.apache.org/datasource-config.html -->	
 	<!-- maxActive máximo transações ativas -->
@@ -35,4 +35,4 @@
 	<!-- minEvictableIdleTimeMillis quantidade de tempo que a conexão pode ficar ocisosa -->
 	<!-- antiJARLocking evita o bloqueio de arquivos JAR em processos do servidor -->
 	<!-- antiResourceLocking não permite bloqueio de arquivos em processos  e JARs -->
-</context>
+</Context>

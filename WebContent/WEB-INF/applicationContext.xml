@@ -22,14 +22,12 @@
 	<context:component-scan base-package="curso.angular.dao" />
 	<context:component-scan base-package="curso.angular.controller" />
 
-
 	<!-- Data Source -->
 	<bean id="springDataSource" name="springDataSource" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="false">
 		<property name="jndiName">
 			<value>java:comp/env/jdbc/datasouce</value> 
 		</property>
 	</bean>
-	
 	
 	<bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate" lazy-init="false"> 
     	<property name="dataSource" ref="springDataSource"/> 
@@ -41,50 +39,45 @@
     	<property name="validateOnMigrate" value="true"/>
 	</bean>
 	
-	
-	 <bean id="transactionManager" name="transactionManager"   
-         class="org.springframework.jdbc.datasource.DataSourceTransactionManager" lazy-init="false">
+	 <bean id="transactionManager" 
+			 	name="transactionManager"   
+		        class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
+		        lazy-init="false">
          <property name="dataSource" ref="springDataSource"/>
      </bean>  
       
-      <bean id="clienteController" name="clienteController"
-        class="curso.angular.controller.ClienteController">
+      <bean id="clienteController" name="clienteController" class="curso.angular.controller.ClienteController">
       		<constructor-arg value="curso.angular.model.Cliente"/>
       </bean>
 
-
-	<bean id="estadosController" name="estadosController"
-		class="curso.angular.controller.EstadosController">
+	<bean id="estadosController" name="estadosController" class="curso.angular.controller.EstadosController">
 		<constructor-arg value="curso.angular.model.Estados" />
 	</bean>
 
-	<bean id="cidadesController" name="cidadesController"
-		class="curso.angular.controller.CidadesController">
+	<bean id="cidadesController" name="cidadesController" class="curso.angular.controller.CidadesController">
 		<constructor-arg value="curso.angular.model.Cidades" />
 	</bean>
 	
-	<bean id="fornecedorController" name="fornecedorController"
-		class="curso.angular.controller.FornecedorController">
+	<bean id="fornecedorController" name="fornecedorController" class="curso.angular.controller.FornecedorController">
 		<constructor-arg value="curso.angular.model.Fornecedor" />
 	</bean>
 	
-	<bean id="livroController" name="livroController"
-		class="curso.angular.controller.LivroController">
+	<bean id="livroController" name="livroController" class="curso.angular.controller.LivroController">
 		<constructor-arg value="curso.angular.model.Livro" />
 	</bean>
 	
-	<bean id="itemPedidoController" name="itemPedidoController"
-		class="curso.angular.controller.ItemPedidoController">
+	<bean id="itemPedidoController" name="itemPedidoController" class="curso.angular.controller.ItemPedidoController">
 		<constructor-arg value="curso.angular.model.ItemPedido" />
 	</bean>
 	
-	<bean id="pedidoController" name="pedidoController"
-		class="curso.angular.controller.PedidoController">
+	<bean id="pedidoController" name="pedidoController" class="curso.angular.controller.PedidoController">
 		<constructor-arg value="curso.angular.model.Pedido" />
 	</bean>
 	
-	<bean id="fileDownloadController" name="FileDownloadController"
-		class="curso.angular.controller.FileDownloadController">
+	<bean id="fileDownloadController" name="fileDownloadController" class="curso.angular.controller.FileDownloadController">
 	</bean>
+	
+	<bean id="reportUtil" name="reportUtil" class="curso.angular.controller.ReportUtil">
+	</bean>
+      
 </beans>
-

@@ -19,38 +19,44 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.springframework.stereotype.Component;
+
 @Component
 public class ReportUtil implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	private static final String FOLDER_RELATORIOS = "/relatorios";
+	
 	private static final String SUBREPORT_DIR = "SUBREPORT_DIR";
+	
 	private String SEPARATOR = File.separator;
+	
 	private String caminhoArquivoRelatorio = null;
+	
 	private JRExporter tipoArquivoExportado = null;
+	
 	private String caminhoSubreport_Dir = "";
+	
 	private File arquivoGerado = null;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String geraRelatorio(List<?> listDataBeanColletionReport,
-			HashMap parametrosRelatorio, String nomeRelatorioJasper,
-			String nomeRelatorioSaida, ServletContext servletContext) throws JRException,
+	public String geraRelatorio(
+			List<?> listDataBeanColletionReport,
+			HashMap parametrosRelatorio, 
+			String nomeRelatorioJasper,
+			String nomeRelatorioSaida, 
+			ServletContext servletContext) throws JRException,
 			FileNotFoundException {
 		
-		/*Cria a lista de collectionDataSource de beans que carregam os dados para o relatório*/
+		/*Cria a lista de collectionDataSource beans que carregam os dados para o relatório*/
 		JRBeanCollectionDataSource jrbcds = new JRBeanCollectionDataSource(listDataBeanColletionReport);
 
-		/*
-		 * Fornece o caminho fisico até a pasta que contem os relatórios
-		 * compilador .jasper
-		 */
+		/*Fornece o caminho fisico até a pasta que contém os relatórios compilador .jasper*/
 		String caminhoRelatorio = servletContext.getRealPath(FOLDER_RELATORIOS);
 
 		File file = new File(caminhoRelatorio + SEPARATOR + nomeRelatorioJasper + ".jasper");
 
-		if (caminhoRelatorio == null
-				|| (caminhoRelatorio != null && caminhoRelatorio.isEmpty()) || !file.exists()) {
+		if (caminhoRelatorio == null || (caminhoRelatorio != null && caminhoRelatorio.isEmpty()) || !file.exists()) {
 			caminhoRelatorio = this.getClass().getResource(FOLDER_RELATORIOS).getPath();
 			SEPARATOR = "";
 		}	
@@ -68,7 +74,7 @@ public class ReportUtil implements Serializable{
 		caminhoSubreport_Dir = caminhoRelatorio + SEPARATOR ;
 		parametrosRelatorio.put(SUBREPORT_DIR, caminhoSubreport_Dir);
 
-		/* Carrega o arquivo compilado para a memória. */
+		/* Carrega o arquivo compilado para a mémoria. */
 		JasperPrint impressoraJasper = JasperFillManager.fillReport(relatorioJasper, parametrosRelatorio, jrbcds);
 
 		tipoArquivoExportado = new JRPdfExporter();
@@ -85,14 +91,12 @@ public class ReportUtil implements Serializable{
 		/* Nome do arquivo fisico a ser impresso/exportado */
 		tipoArquivoExportado.setParameter(JRExporterParameter.OUTPUT_FILE, arquivoGerado);
 
-		/* Executa a exporta��o */
+		/* Executa a exportação */
 		tipoArquivoExportado.exportReport();
 
 		/* Remove o arquivo do servidor após ser feito o download pelo usuário */
 		arquivoGerado.deleteOnExit();
 		
 		return caminhoArquivoRelatorio;
-		
 	}
-
 }

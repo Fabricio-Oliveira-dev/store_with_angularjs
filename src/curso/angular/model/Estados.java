@@ -5,11 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- * Modelo que representa a tabel de Estados do banco
- * @author alex
- *
- */
 @Entity
 public class Estados {
 
@@ -21,7 +16,6 @@ public class Estados {
 
 	private String sigla;
 	
-
 	public Long getId() {
 		return id;
 	}
@@ -70,5 +64,4 @@ public class Estados {
 			return false;
 		return true;
 	}
-
 }

@@ -7,7 +7,7 @@ app.controller('fornecedorController', function($scope, $http, $location, $route
 			$scope.fornecedor = response;
 			
 			document.getElementById("imagemFornecedor").src = $scope.fornecedor.foto;
-			//------------------ carrega estados e cidades do fornecedor em edi��o
+			//------------------ carrega estados e cidades do fornecedor em edição
 			setTimeout(function () {
 				$("#selectEstados").prop('selectedIndex', (new Number($scope.fornecedor.estados.id) + 1));
 				
@@ -28,17 +28,15 @@ app.controller('fornecedorController', function($scope, $http, $location, $route
 			erro("Error: " + status);
 		});
 		
-	}else { // novo fornecedor
+	} else { // novo fornecedor
 		$scope.fornecedor = {};
 	}
-	
 	
 	$scope.editarFornecedor = function(id) {
 		$location.path('fornecedoredit/' + id);
 	};
 	
-	
-	// Respons�vel por salvar o fornecedor ou editar os dados
+	// Responsável por salvar o fornecedor ou editar os dados
 	$scope.salvarFornecedor = function() {
 				$scope.fornecedor.foto = document.getElementById("imagemFornecedor").getAttribute("src");
 				
@@ -52,20 +50,19 @@ app.controller('fornecedorController', function($scope, $http, $location, $route
   
       };
           
-          
 	// listar todos os fornecedor
 	$scope.listarFornecedor = function(numeroPagina) {
 		$scope.numeroPagina = numeroPagina;
 		$http.get("fornecedor/listar/" + numeroPagina).success(function(response) {
 			$scope.data = response;
 			
-			//---------Inicio total p�gina----------
+			//---------Inicio total página----------
 				$http.get("fornecedor/totalPagina").success(function(response) {
 					$scope.totalPagina = response;
 				}).error(function(response) {
 					erro("Error: " + response);
 				});
-			//---------Fim total p�gina----------
+			//---------Fim total página----------
 			
 		}).error(function(response) {
 			erro("Error: " + response);
@@ -95,7 +92,6 @@ app.controller('fornecedorController', function($scope, $http, $location, $route
 		});
 	};
 	
-	
 	// carrega as cidades de acordo com o estado passado por parametro
 	$scope.carregarCidades = function(estado) {
 		if (identific_nav() != 'chrome') {// executa se for diferente do chrome
@@ -116,5 +112,4 @@ app.controller('fornecedorController', function($scope, $http, $location, $route
 			erro("Error: " + response);
 		});
 	};
-	
 });

@@ -21,12 +21,10 @@ import curso.angular.hibernate.HibernateUtil;
 import curso.angular.listener.ContextLoaderListenerCaixakiUtils;
 
 /**
- * Intercepta todas as requisições, faz commit e rollback 
- * @author alex
+ * Intercepta todas as requisiÃ§Ãµes, faz commit e rollback 
  */
 @WebFilter(filterName = "conexaoFilter")
-public class FilterOpenSessionInView extends DelegatingFilterProxy implements
-		Serializable {
+public class FilterOpenSessionInView extends DelegatingFilterProxy implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static SessionFactory sf;
@@ -37,19 +35,18 @@ public class FilterOpenSessionInView extends DelegatingFilterProxy implements
 	}
 
 	@Override
-	public void doFilter(ServletRequest servletRequest,
-			ServletResponse servletResponse, FilterChain chain)
+	public void doFilter(
+			ServletRequest servletRequest,
+			ServletResponse servletResponse, 
+			FilterChain chain)
 			throws IOException, ServletException {
 
-		BasicDataSource springDataSource = (BasicDataSource) ContextLoaderListenerCaixakiUtils
-				.getBean("springDataSource");
+		BasicDataSource springDataSource = (BasicDataSource) ContextLoaderListenerCaixakiUtils.getBean("springDataSource");
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(
-				springDataSource);
+		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(springDataSource);
 		TransactionStatus status = transactionManager.getTransaction(def);
 
 		try {
-
 			servletRequest.setCharacterEncoding("UTF-8");
 
 			sf.getCurrentSession().beginTransaction();
@@ -61,11 +58,10 @@ public class FilterOpenSessionInView extends DelegatingFilterProxy implements
 				sf.getCurrentSession().flush();
 				sf.getCurrentSession().getTransaction().commit();
 			}
-
+			
 			if (sf.getCurrentSession().isOpen()) {
 				sf.getCurrentSession().close();
 			}
-
 			servletResponse.setCharacterEncoding("UTF-8");
 			servletResponse.setContentType("text/html; charset=UTF-8");
 
@@ -78,20 +74,22 @@ public class FilterOpenSessionInView extends DelegatingFilterProxy implements
 			if (sf.getCurrentSession().getTransaction().isActive()) {
 				sf.getCurrentSession().getTransaction().rollback();
 			}
+			
 			if (sf.getCurrentSession().isOpen()) {
 				sf.getCurrentSession().close();
 			}
+			
 		} finally {
 			if (sf.getCurrentSession().isOpen()) {
 				if (sf.getCurrentSession().beginTransaction().isActive()) {
 					sf.getCurrentSession().flush();
 					sf.getCurrentSession().clear();
 				}
+				
 				if (sf.getCurrentSession().isOpen()) {
 					sf.getCurrentSession().close();
 				}
 			}
-
 		}
 	}
 }

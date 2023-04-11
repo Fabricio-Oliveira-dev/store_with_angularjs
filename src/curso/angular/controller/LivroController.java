@@ -26,8 +26,7 @@ import curso.angular.model.Livro;
 
 @Controller
 @RequestMapping(value = "/livro")
-public class LivroController extends DaoImplementacao<Livro> implements
-		DaoInterface<Livro> {
+public class LivroController extends DaoImplementacao<Livro> implements DaoInterface<Livro> {
 
 	public LivroController(Class<Livro> persistenceClass) {
 		super(persistenceClass);
@@ -38,22 +37,19 @@ public class LivroController extends DaoImplementacao<Livro> implements
 	 public ResponseEntity salvar(@RequestBody String jsonLivro) throws Exception {
 		 Livro livro = new Gson().fromJson(jsonLivro, Livro.class);
 		 super.salvarOuAtualizar(livro);
+		
 		 return new ResponseEntity(HttpStatus.CREATED);
-		 
 	 }
-	
 	
 	 /**
 	  * Retorna a lista de livros cadastrados
 	  * @return JSON String de Livros
-	  * @throws Exception
 	  */
 	@RequestMapping(value="listar/{numeroPagina}", method=RequestMethod.GET, headers = "Accept=application/json") 
 	@ResponseBody
-	public String listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
-		return new Gson().toJson(super.consultaPaginada(numeroPagina)); 
+	public byte[] listar(@PathVariable("numeroPagina") String numeroPagina) throws Exception {
+		return new Gson().toJson(super.consultaPaginada(numeroPagina)).getBytes("UTF-8"); 
 	}
-	
 	
 	@RequestMapping(value="totalPagina", method=RequestMethod.GET, headers = "Accept=application/json") 
 	@ResponseBody
@@ -63,9 +59,7 @@ public class LivroController extends DaoImplementacao<Livro> implements
 	 
 	/**
 	 * Delete o livro informado
-	 * @param codLivro
 	 * @return String vazia como resposta
-	 * @throws Exception
 	 */
 	@RequestMapping(value="deletar/{codLivro}", method=RequestMethod.DELETE)
 	public  @ResponseBody String deletar (@PathVariable("codLivro") String codLivro) throws Exception {
@@ -73,26 +67,24 @@ public class LivroController extends DaoImplementacao<Livro> implements
 		return "";
 	}
 	
-	
 	/**
 	 * Consulta e retorna o livro com o codigo informado
-	 * @param codLivro
 	 * @return JSON livro pesquisado
-	 * @throws Exception
 	 */
 	@RequestMapping(value="buscarlivro/{codLivro}", method=RequestMethod.GET)
-	public  @ResponseBody String buscarLivro (@PathVariable("codLivro") String codLivro) throws Exception {
+	public  @ResponseBody byte[] buscarLivro (@PathVariable("codLivro") String codLivro) throws Exception {
 		Livro objeto = super.loadObjeto(Long.parseLong(codLivro));
+		
 		if (objeto == null) {
-			return "{}";
+			return "{}".getBytes("UTF-8");
 		}
-		return new Gson().toJson(objeto);
+		return new Gson().toJson(objeto).getBytes("UTF-8");
 	}
 	
 	@RequestMapping(value="autenticar", method=RequestMethod.GET)
 	public  @ResponseBody String autenticar () throws Exception {
 		
-		Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("permissao", true);
@@ -102,13 +94,11 @@ public class LivroController extends DaoImplementacao<Livro> implements
 		
 		Iterator<GrantedAuthority> iterator = (Iterator<GrantedAuthority>) authentication.getAuthorities().iterator();
 		
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()){
 			permissoes.add(iterator.next().getAuthority());
 		}
-		
-		map.put("permissao", permissoes);
+		map.put("permissoes", permissoes);
 		
 		return new Gson().toJson(map);
 	}
-	
 }

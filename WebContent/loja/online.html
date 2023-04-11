@@ -1,13 +1,21 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+	  .d-flex {
+	    display: flex;
+	    justify-content: center;
+	    flex-wrap: wrap;
+	  }
+ </style>
 </head>
 <h1>Loja on-line de livros</h1>
 
 <br/>
 <br/>
-<a ng-click="fecharPedido();">{{carrinhoLivro.length}} Itens no Carrinho <img alt="Carrinho" title="Carrinho de Livro"
-	src="resources/img/carrinho.png" border="0" height="40px;" width="40px;">
+
+<a ng-click="fecharPedido();">{{carrinhoLivro.length}} Itens no Carrinho 
+	<img alt="Carrinho" title="Carrinho de Livro" src="resources/img/carrinho.png" border="0" height="40px" width="40px">
 </a>
 
 <br/>
@@ -17,11 +25,12 @@
 	<div class="card">
 		<div class="content">
 			<form id="formLivro">
-				<div class="row">
+				
+				<div class="d-flex">
 					<div class="col-md-3" ng-repeat="livro in data">
 						<div class="form-group">
 						    <label style="color: black;">{{livro.titulo}}</label>
-							<img alt="Foto de Capa" id="imagemLivro" src="{{livro.foto}}"  style="width: 170px;height: 200px;" border="0">
+							<img alt="Foto de Capa" id="imagemLivro" src="{{livro.foto}}"  style="width: 150px;height: 200px;" border="0">
 							<label onclick="mostrarDescricao(this.title)" title="{{livro.descricao}}">Ver Descrição</label>
 							<br/>
 							<label style="color: green;">{{livro.valor}}</label>
@@ -30,6 +39,7 @@
 						</div>
 					</div>
 				</div>	
+				
 			</form>
 			<br/>
 			<br/>
@@ -39,11 +49,11 @@
 			</div>  
 		</div> 
 	</div>
-	<div id="descricaoLivro" title="Descrição resumida do livro" style="height: 200px; width: 400px;"></div>
+	
+	<div id="descricaloLivro" title="Descrição resumida do livro" style="height: 50px; width: 50px;"></div>
 	<script type="text/javascript">
 			function mostrarDescricao(descricao) {
-				$('#descricaoLivro').html("<p>"+descricao+"</p").dialog({modal:true});
+				$('#descricaloLivro').html("<p>"+descricao+"</p").dialog({modal:true});
 			}
-	
 	</script>
 </html>

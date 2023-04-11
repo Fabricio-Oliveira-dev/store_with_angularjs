@@ -13,8 +13,7 @@ import curso.angular.model.Estados;
 
 @Controller
 @RequestMapping(value = "/estados")
-public class EstadosController extends DaoImplementacao<Estados> implements
-		DaoInterface<Estados> {
+public class EstadosController extends DaoImplementacao<Estados> implements DaoInterface<Estados> {
 
 	public EstadosController(Class<Estados> persistenceClass) {
 		super(persistenceClass);
@@ -23,12 +22,10 @@ public class EstadosController extends DaoImplementacao<Estados> implements
 	/**
 	 * Faz o carregamento da lista de Estados
 	 * @return List<Estados> 
-	 * @throws Exception
 	 */
 	@RequestMapping(value = "listar", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
 	public String listar() throws Exception {
 		return new Gson().toJson(super.lista());
 	}
-
 }

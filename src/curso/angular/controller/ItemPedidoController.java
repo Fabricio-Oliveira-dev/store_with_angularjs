@@ -21,8 +21,7 @@ import curso.angular.model.Pedido;
 
 @Controller
 @RequestMapping(value="/itempedido")
-public class ItemPedidoController extends DaoImplementacao<ItemPedido> implements
-		DaoInterface<ItemPedido> {
+public class ItemPedidoController extends DaoImplementacao<ItemPedido> implements DaoInterface<ItemPedido> {
 	
 	@Autowired
 	private LivroController livroController;
@@ -32,18 +31,19 @@ public class ItemPedidoController extends DaoImplementacao<ItemPedido> implement
 	}
 	
 	@RequestMapping(value="processar/{itens}")
-	public @ResponseBody String processar(@PathVariable("itens") String itens) throws Exception{
+	public @ResponseBody byte[] processar(@PathVariable("itens") String itens) throws Exception{
 		List<Livro> livros = livroController.lista(itens);
 		List<ItemPedido> itemPedidos = new ArrayList<ItemPedido>();
 		
 		Pedido pedido = new Pedido();
 		BigDecimal valorTotal = BigDecimal.ZERO;
+		
 		for (Livro livro: livros) {
 			String valor = livro.getValor().replace("R", "").replace("$", "").replaceAll("\\.", "").replaceAll("\\,", ".");
 			valorTotal = valorTotal.add(new BigDecimal(valor.trim()));
 		}
-		
 		pedido.setValorTotal("R$" + valorTotal.setScale(2, RoundingMode.HALF_DOWN).toString());
+		
 		for (Livro livro: livros) {
 			ItemPedido itemPedido  = new ItemPedido();
 			itemPedido.setLivro(livro);
@@ -51,9 +51,6 @@ public class ItemPedidoController extends DaoImplementacao<ItemPedido> implement
 			itemPedido.setQuantidade(1L);
 			itemPedidos.add(itemPedido);
 		}
-		
-		return new Gson().toJson(itemPedidos);
+		return new Gson().toJson(itemPedidos).getBytes("UTF-8");
 	}
-	
-
 }

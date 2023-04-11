@@ -5,16 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Interface destinada ao metodos padr�o de opera��es no banco
- * @author alex
- * @param <T>
- */
+//Interface destinada ao métodos padrões de operações no banco
 @Transactional(noRollbackFor = Exception.class)
 @Service
 public interface DaoInterface<T> {
 
-void salvar (T objeto) throws Exception;
+	void salvar (T objeto) throws Exception;
 	
 	void deletar (T objeto) throws Exception;
 	
