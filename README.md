@@ -1,5 +1,5 @@
 # Loja de livros feita com Spring Framework, Spring Security, AngularJS e Bootstrap
-Este é um projeto de cadastro inspirado no que seria uma loja de livros, utilizando as operações de banco de dados criar, consultar, atualizar e deletar. Baseado com as principais tecnologias sendo descritas acima mais o adicional de relatório em pdf com JasperSoft Studio e Gráfico de Barras com Google Charts.
+Este é um projeto de cadastro inspirado no que seria uma loja de livros, utilizando as operações de banco de dados criar, consultar, atualizar e deletar utilizando o banco de dados PostgreSQL. Baseado com as principais tecnologias sendo descritas acima mais o adicional de relatório em pdf com JasperSoft Studio e Gráfico de Barras com Google Charts.
 
 # Tela de Login
 Esta é a tela de login, aonde é possível o usuário acessar com suas credenciais e caso alguma das duas informações (login e senha) estarem erradas, o Spring Security impede o usuário de logar.
